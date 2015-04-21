@@ -216,6 +216,14 @@ process_args(int* argc, char*** argv)
   QMP_args->lmap = get_int_array(&QMP_args->lmaplen, "-qmp-logic-map", argc, argv);
   QMP_args->jobgeom = get_int_array(&QMP_args->njobdim, "-qmp-job", argc, argv);
 
+  if( QMP_args->jobgeom == NULL )
+  {
+   QMP_args->njobdim = QMP_args->geomlen ;
+   QMP_alloc( QMP_args->jobgeom, int, QMP_args->njobdim ) ;
+   int i ;
+   for( i = 0 ; i < QMP_args->njobdim ; i++ ) (QMP_args->jobgeom) [i] = 1 ;
+  }
+
   QMP_assert(QMP_args->amaplen>=0);
   QMP_assert(QMP_args->lmaplen>=0);
 
